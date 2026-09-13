@@ -2,7 +2,7 @@
 
 Muse Code appears in the provider picker beside the providers bb ships. Pick it
 for a thread, choose a model from Muse's own catalog, and set a reasoning level
-from low through x-high.
+from low through max.
 
 Everything Muse does lands on bb's timeline as bb items: commands with their
 output, file edits, searches, its todo list, its reasoning, and the subagents
