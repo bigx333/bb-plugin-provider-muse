@@ -26,6 +26,7 @@ export interface PrepareConfigHomeArgs {
 }
 
 const MCP_SERVER_NAME = "bb-bridge";
+const SETTINGS_SCHEMA_VERSION = 1;
 
 export async function prepareMuseConfigHome(
   args: PrepareConfigHomeArgs,
@@ -78,6 +79,14 @@ export async function buildSettings(
     }
   } catch {
     settings = {};
+  }
+
+  /**
+   * `muse serve` refuses a settings file that carries no schema_version, and
+   * a user who has never saved settings has no file to inherit one from.
+   */
+  if (settings.schema_version === undefined) {
+    settings.schema_version = SETTINGS_SCHEMA_VERSION;
   }
 
   const existing = settings.mcpServers;

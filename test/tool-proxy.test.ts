@@ -66,6 +66,34 @@ describe("muse config overlay", () => {
     ]);
   });
 
+  it("stamps the schema version when the user's settings predate it", async () => {
+    writeFileSync(
+      join(sourceDir, "settings.json"),
+      JSON.stringify({ model: "muse-spark-1.3" }),
+    );
+    const settings = await buildSettings(sourceDir, null);
+    expect(settings.schema_version).toBe(1);
+  });
+
+  it("stamps the schema version when there is no settings file at all", async () => {
+    rmSync(join(sourceDir, "settings.json"));
+    const settings = await buildSettings(sourceDir, {
+      command: "node",
+      args: [],
+      env: {},
+    });
+    expect(settings.schema_version).toBe(1);
+  });
+
+  it("leaves the user's own schema version alone", async () => {
+    writeFileSync(
+      join(sourceDir, "settings.json"),
+      JSON.stringify({ schema_version: 2 }),
+    );
+    const settings = await buildSettings(sourceDir, null);
+    expect(settings.schema_version).toBe(2);
+  });
+
   it("links credentials into the private config directory", async () => {
     const xdgHome = await prepareMuseConfigHome({
       root: join(root, "home"),
