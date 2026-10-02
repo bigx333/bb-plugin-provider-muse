@@ -57,6 +57,7 @@ import {
   type MspConnection,
   type MspExitInfo,
 } from "./msp/connection.js";
+import { ensureMuseDataDirSafe } from "./msp/data-home.js";
 import { museExecutable } from "./msp/paths.js";
 import {
   MSP_METHODS,
@@ -619,13 +620,15 @@ async function constructRuntime(args: {
     attachment.dynamicTools,
   );
   attachment.configHome = configHome;
+  const env = childEnv(args.options.envVars, configHome);
+  await ensureMuseDataDirSafe(env);
 
   runtimeSerialCounter += 1;
   const serial = runtimeSerialCounter;
   const connection = spawnChild({
     posture: construction.posture,
     cwd: construction.cwd,
-    env: childEnv(args.options.envVars, configHome),
+    env,
     recordThreadId: attachment.threadId,
     onNotification: (method, params) =>
       handleChildNotification(attachment.threadId, serial, method, params),
@@ -2700,8 +2703,9 @@ function modelFromCatalog(entry: MspModelCatalogEntry): AvailableModel {
       { reasoningEffort: "low", description: "Fast, shallow reasoning." },
       { reasoningEffort: "medium", description: "Balanced reasoning." },
       { reasoningEffort: "high", description: "Muse Code's default effort." },
-      { reasoningEffort: "xhigh", description: "Deeper reasoning." },
-      { reasoningEffort: "max", description: "Muse's deepest reasoning." },
+      { reasoningEffort: "xhigh", description: "Extra-high reasoning." },
+      { reasoningEffort: "max", description: "Muse's native max effort." },
+      { reasoningEffort: "ultra", description: "Muse's native ultra effort." },
     ],
     defaultReasoningEffort: MUSE_DEFAULT_REASONING_LEVEL,
     isDefault: entry.isDefault,

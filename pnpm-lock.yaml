@@ -8,13 +8,13 @@ importers:
 
   .:
     dependencies:
-      '@get-bb/plugin-sdk':
-        specifier: 0.4.34
-        version: 0.4.34(zod@4.6.5)
       zod:
         specifier: ^4.3.6
         version: 4.6.5
     devDependencies:
+      '@get-bb/plugin-sdk':
+        specifier: 0.5.9
+        version: 0.5.9
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.4
@@ -183,8 +183,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@get-bb/plugin-sdk@0.4.34':
-    resolution: {integrity: sha512-2ugZuMXdASpmRUrGPaj09sk0t21xDJTudqzT0ucFW8pYY8PMyVmy7RCTRAsNo1oCicvOvD97rw8C1v3k5hYqFA==}
+  '@get-bb/plugin-sdk@0.5.9':
+    resolution: {integrity: sha512-rFfSE0tSI0xtbNYnx9aJC/dyguWQlwC7WO8OIgJ/W5Wx5z5m0sQm8/VC/gXNe7Y79XoZw0dJS9nqrhWYdmZe/Q==}
     peerDependencies:
       '@testing-library/react': ^16.3.2
       '@types/better-sqlite3': ^7.6.12
@@ -194,7 +194,6 @@ packages:
       hono: ^4.11.9
       react: ^19.0.0
       react-dom: ^19.0.0
-      zod: ^4.3.6
     peerDependenciesMeta:
       '@testing-library/react':
         optional: true
@@ -211,8 +210,6 @@ packages:
       react:
         optional: true
       react-dom:
-        optional: true
-      zod:
         optional: true
 
   '@jridgewell/sourcemap-codec@1.6.0':
@@ -709,8 +706,8 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@get-bb/plugin-sdk@0.4.34(zod@4.6.5)':
-    optionalDependencies:
+  '@get-bb/plugin-sdk@0.5.9':
+    dependencies:
       zod: 4.6.5
 
   '@jridgewell/sourcemap-codec@1.6.0': {}
