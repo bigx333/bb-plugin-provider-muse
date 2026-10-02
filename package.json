@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-provider-muse",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "type": "module",
   "description": "Muse Code (Meta) as a first-class BB agent provider.",
   "license": "MIT",
@@ -35,10 +35,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@get-bb/plugin-sdk": "0.4.34",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@get-bb/plugin-sdk": "0.5.9",
     "@types/node": "^22.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"

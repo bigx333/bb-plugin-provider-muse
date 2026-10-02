@@ -64,6 +64,21 @@ describe("muse config overlay", () => {
       "bb-bridge",
       "mine",
     ]);
+    expect(settings.schema_version).toBe(1);
+  });
+
+  it("creates valid settings when the user has no settings file", async () => {
+    rmSync(join(sourceDir, "settings.json"));
+    const xdgHome = await prepareMuseConfigHome({
+      root: join(root, "home"),
+      sourceConfigDir: sourceDir,
+      mcpServer: { command: "node", args: [], env: {} },
+    });
+    const written = JSON.parse(
+      readFileSync(join(xdgHome, "muse", "settings.json"), "utf8"),
+    );
+    expect(written.schema_version).toBe(1);
+    expect(written.mcpServers["bb-bridge"].command).toBe("node");
   });
 
   it("stamps the schema version when the user's settings predate it", async () => {

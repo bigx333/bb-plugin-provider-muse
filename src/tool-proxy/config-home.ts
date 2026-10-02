@@ -26,7 +26,6 @@ export interface PrepareConfigHomeArgs {
 }
 
 const MCP_SERVER_NAME = "bb-bridge";
-const SETTINGS_SCHEMA_VERSION = 1;
 
 export async function prepareMuseConfigHome(
   args: PrepareConfigHomeArgs,
@@ -69,24 +68,17 @@ export async function buildSettings(
   sourceDir: string,
   mcpServer: MuseMcpServerSpec | null,
 ): Promise<Record<string, unknown>> {
-  let settings: Record<string, unknown> = {};
+  // Muse requires this field even when the user's config has not been created.
+  let settings: Record<string, unknown> = { schema_version: 1 };
   try {
     const raw: unknown = JSON.parse(
       await readFile(join(sourceDir, "settings.json"), "utf8"),
     );
     if (typeof raw === "object" && raw !== null && !Array.isArray(raw)) {
-      settings = raw as Record<string, unknown>;
+      settings = { schema_version: 1, ...(raw as Record<string, unknown>) };
     }
   } catch {
-    settings = {};
-  }
-
-  /**
-   * `muse serve` refuses a settings file that carries no schema_version, and
-   * a user who has never saved settings has no file to inherit one from.
-   */
-  if (settings.schema_version === undefined) {
-    settings.schema_version = SETTINGS_SCHEMA_VERSION;
+    settings = { schema_version: 1 };
   }
 
   const existing = settings.mcpServers;
